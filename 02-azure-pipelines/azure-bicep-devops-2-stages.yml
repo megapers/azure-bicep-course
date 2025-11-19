@@ -21,20 +21,23 @@ stages:
 
     steps:
     
-    - task: RunARMTTKTests@1
-      displayName: Scan Bicep files
+    - task: ps-rule-assert@2
+      displayName: Scan Bicep files with PSRule
       inputs:
-        templatelocation: '$(System.DefaultWorkingDirectory)\01-bicep-webapp'
-        resultLocation: '$(System.DefaultWorkingDirectory)\results'
-        allTemplatesMain: false
-        cliOutputResults: true
-        ignoreExitCode: true
+        inputType: 'repository'
+        inputPath: '01-bicep-webapp/'
+        modules: 'PSRule.Rules.Azure'
+        outputFormat: 'NUnit3'
+        outputPath: 'reports/ps-rule-results.xml'
+      continueOnError: true
 
     - task: PublishTestResults@2
-      displayName: Publish Results
+      displayName: Publish PSRule Results
       inputs:
         testResultsFormat: 'NUnit'
-        testResultsFiles: '$(System.DefaultWorkingDirectory)\results\*-armttk.xml'
+        testResultsFiles: 'reports/ps-rule-results.xml'
+        mergeTestResults: true
+        testRunTitle: 'PSRule Bicep Analysis'
       condition: always()
 
     - task: AzureCLI@2
