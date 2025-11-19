@@ -6,7 +6,7 @@ param location string = 'canadacentral' // Location for all resources
 var appServicePlanName = toLower('AppServicePlan-${webAppName}')
 var webSiteName = toLower('wapp-${webAppName}')
 
-resource appServicePlan 'Microsoft.Web/serverfarms@2025-03-01' = {
+resource appServicePlan 'Microsoft.Web/serverfarms@2023-12-01' = {
   name: appServicePlanName
   location: location
   sku: {
@@ -19,7 +19,7 @@ resource appServicePlan 'Microsoft.Web/serverfarms@2025-03-01' = {
   }
 }
 
-resource appService 'Microsoft.Web/sites@2025-03-01' = {
+resource appService 'Microsoft.Web/sites@2023-12-01' = {
   name: webSiteName
   location: location
   kind: 'app'
