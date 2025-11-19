@@ -22,7 +22,7 @@ resource appService 'Microsoft.Web/sites@2023-12-01' = {
   properties: {
     serverFarmId: appServicePlan.id
     siteConfig: {
-      phpVersion: '8.2'
+      netFrameworkVersion: 'v4.8'
     }
   }
 }
