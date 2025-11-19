@@ -1,0 +1,15 @@
+# PSRule configuration for Bicep analysis
+configuration:
+  AZURE_BICEP_FILE_EXPANSION: true
+  AZURE_BICEP_FILE_EXPANSION_TIMEOUT: 10
+
+input:
+  pathIgnore:
+  - '*.json'
+  - '*.md'
+  - '*.yml'
+  - '*.yaml'
+
+output:
+  culture:
+  - 'en-US'
