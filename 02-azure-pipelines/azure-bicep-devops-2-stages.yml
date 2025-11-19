@@ -14,8 +14,8 @@ pool:
 stages:
 - stage: preDeploy
   jobs:
-  - job: scanWhatif
-    displayName: scan and run whatif
+  - job: scanAndValidate
+    displayName: Scan and validate Bicep
     pool:
       vmImage: windows-2022
 
