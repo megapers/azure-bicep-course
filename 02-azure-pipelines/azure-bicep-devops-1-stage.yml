@@ -15,8 +15,19 @@ pool:
 steps:
 - task: AzureCLI@2
   displayName: Preview Bicep Changes
+- task: AzureCLI@2
   inputs:
-    azureSubscription: 'Microsoft-Azure-0(17b12858-3960-4e6f-a663-a06fdae23428)'
+    azureSubscription: 'azure-connection'
+    scriptType: 'bash'
+    scriptLocation: 'inlineScript'
+    inlineScript: |
+      az --version
+      az group create --name $(resourceGroupName) --location $(location)
+      az deployment group what-if --resource-group $(resourceGroupName) \
+         --template-file $(templateFile) \
+         --parameters webAppName=$(webAppName)
+  inputs:
+    azureSubscription: 'azure-connection'
     scriptType: 'bash'
     scriptLocation: 'inlineScript'
     inlineScript: |
@@ -29,7 +40,7 @@ steps:
 - task: AzureCLI@2
   displayName: Deploy Bicep To Azure
   inputs:
-    azureSubscription: 'Microsoft-Azure-0(17b12858-3960-4e6f-a663-a06fdae23428)'
+    azureSubscription: 'azure-connection'
     scriptType: 'bash'
     scriptLocation: 'inlineScript'
     inlineScript: |
