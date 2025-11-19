@@ -14,7 +14,7 @@ pool:
 
 steps:
 - task: AzureCLI@2
-  displayName: Preview Bicep Changes
+  displayName: Create Resource Group
   inputs:
     azureSubscription: 'azure-connection'
     scriptType: 'bash'
@@ -22,7 +22,16 @@ steps:
     inlineScript: |
       az --version
       az group create --name $(resourceGroupName) --location $(location)
-      az deployment group what-if --resource-group $(resourceGroupName) \
+
+- task: AzureCLI@2
+  displayName: Validate Bicep Template
+  inputs:
+    azureSubscription: 'azure-connection'
+    scriptType: 'bash'
+    scriptLocation: 'inlineScript'
+    inlineScript: |
+      az deployment group validate \
+        --resource-group $(resourceGroupName) \
         --template-file $(templateFile) \
         --parameters webAppName=$(webAppName)
 
