@@ -27,12 +27,23 @@ stages:
         targetType: 'inline'
         script: |
           # Install PSRule modules
+          Write-Host "Installing PSRule.Rules.Azure module..."
           Install-Module -Name PSRule.Rules.Azure -Scope CurrentUser -Force -ErrorAction Stop
           
-          # Run PSRule analysis
-          $results = Invoke-PSRule -InputPath '01-bicep-webapp/' -Module PSRule.Rules.Azure -Format File -OutputFormat NUnit3 -OutputPath 'reports/ps-rule-results.xml' -ErrorAction SilentlyContinue
+          # Create reports directory
+          New-Item -ItemType Directory -Force -Path 'reports' | Out-Null
           
-          Write-Host "PSRule analysis complete"
+          # Run PSRule analysis
+          Write-Host "Running PSRule analysis..."
+          Invoke-PSRule -InputPath '01-bicep-webapp/' -Module PSRule.Rules.Azure -Format File -OutputFormat NUnit3 -OutputPath 'reports/ps-rule-results.xml' -ErrorAction Stop
+          
+          # Verify file was created
+          if (Test-Path 'reports/ps-rule-results.xml') {
+              Write-Host "✓ PSRule results file created successfully"
+              Get-Content 'reports/ps-rule-results.xml' | Select-Object -First 10
+          } else {
+              Write-Warning "PSRule results file was not created"
+          }
         pwsh: true
       continueOnError: true
 
