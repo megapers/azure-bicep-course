@@ -1,16 +1,17 @@
 param webAppName string = uniqueString(resourceGroup().id)
-param sku string = 'S1'
-param linuxFxVersion string = 'php|7.4'
-param location string = resourceGroup().location
+param sku string = 'F1'
+param linuxFxVersion string = 'php|8.2'
+param location string = 'canadacentral'
 
 var appServicePlanName_var = toLower('AppServicePlan-${webAppName}')
 var webSiteName_var = toLower('wapp-${webAppName}')
 
-resource appServicePlanName 'Microsoft.Web/serverfarms@2020-06-01' = {
+resource appServicePlanName 'Microsoft.Web/serverfarms@2025-03-01' = {
   name: appServicePlanName_var
   location: location
   sku: {
     name: sku
+    tier: 'Free'
   }
   kind: 'linux'
   properties: {
@@ -18,7 +19,7 @@ resource appServicePlanName 'Microsoft.Web/serverfarms@2020-06-01' = {
   }
 }
 
-resource webSiteName 'Microsoft.Web/sites@2020-06-01' = {
+resource webSiteName 'Microsoft.Web/sites@2025-03-01' = {
   name: webSiteName_var
   location: location
   kind: 'app'

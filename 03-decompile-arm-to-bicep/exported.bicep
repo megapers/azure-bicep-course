@@ -1,35 +1,22 @@
 param serverfarms_appserviceplan_web_21_name string
 param sites_terraform_web_021_name string
 
-resource serverfarms_appserviceplan_web_21_name_resource 'Microsoft.Web/serverfarms@2021-03-01' = {
+resource serverfarms_appserviceplan_web_21_name_resource 'Microsoft.Web/serverfarms@2025-03-01' = {
   kind: 'linux'
-  location: 'North Europe'
+  location: 'canadacentral'
   name: serverfarms_appserviceplan_web_21_name
   properties: {
-    elasticScaleEnabled: false
-    freeOfferExpirationTime: '2022-04-30T11:43:48.16'
-    hyperV: false
-    isSpot: false
-    isXenon: false
-    maximumElasticWorkerCount: 1
-    perSiteScaling: false
     reserved: true
-    targetWorkerCount: 0
-    targetWorkerSizeId: 0
-    zoneRedundant: false
   }
   sku: {
-    capacity: 1
-    family: 'B'
-    name: 'B1'
-    size: 'B1'
-    tier: 'Basic'
+    name: 'F1'
+    tier: 'Free'
   }
 }
 
-resource sites_terraform_web_021_name_resource 'Microsoft.Web/sites@2021-03-01' = {
+resource sites_terraform_web_021_name_resource 'Microsoft.Web/sites@2025-03-01' = {
   kind: 'app,linux'
-  location: 'North Europe'
+  location: 'canadacentral'
   name: sites_terraform_web_021_name
   properties: {
     clientAffinityEnabled: false
@@ -72,27 +59,24 @@ resource sites_terraform_web_021_name_resource 'Microsoft.Web/sites@2021-03-01' 
   }
 }
 
-resource sites_terraform_web_021_name_ftp 'Microsoft.Web/sites/basicPublishingCredentialsPolicies@2021-03-01' = {
+resource sites_terraform_web_021_name_ftp 'Microsoft.Web/sites/basicPublishingCredentialsPolicies@2025-03-01' = {
   parent: sites_terraform_web_021_name_resource
-  location: 'North Europe'
   name: 'ftp'
   properties: {
     allow: true
   }
 }
 
-resource sites_terraform_web_021_name_scm 'Microsoft.Web/sites/basicPublishingCredentialsPolicies@2021-03-01' = {
+resource sites_terraform_web_021_name_scm 'Microsoft.Web/sites/basicPublishingCredentialsPolicies@2025-03-01' = {
   parent: sites_terraform_web_021_name_resource
-  location: 'North Europe'
   name: 'scm'
   properties: {
     allow: true
   }
 }
 
-resource sites_terraform_web_021_name_web 'Microsoft.Web/sites/config@2021-03-01' = {
+resource sites_terraform_web_021_name_web 'Microsoft.Web/sites/config@2025-03-01' = {
   parent: sites_terraform_web_021_name_resource
-  location: 'North Europe'
   name: 'web'
   properties: {
     acrUseManagedIdentityCreds: false
@@ -160,9 +144,8 @@ resource sites_terraform_web_021_name_web 'Microsoft.Web/sites/config@2021-03-01
   }
 }
 
-resource sites_terraform_web_021_name_sites_terraform_web_021_name_azurewebsites_net 'Microsoft.Web/sites/hostNameBindings@2021-03-01' = {
+resource sites_terraform_web_021_name_sites_terraform_web_021_name_azurewebsites_net 'Microsoft.Web/sites/hostNameBindings@2025-03-01' = {
   parent: sites_terraform_web_021_name_resource
-  location: 'North Europe'
   name: '${sites_terraform_web_021_name}.azurewebsites.net'
   properties: {
     hostNameType: 'Verified'
